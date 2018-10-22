@@ -1,0 +1,16 @@
+.detail-template {
+  display : flex;
+  justify-content: space-between;
+  flex-wrap : wrap;
+}
+
+.rigth-part {
+   width : 80%;
+   height : 90vh;
+   background: #f1f3f5;
+ }
+
+ .park-info {
+   height : 40vh;
+   background: #f1f3f5;
+ }

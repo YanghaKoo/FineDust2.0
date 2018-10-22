@@ -1,0 +1,15 @@
+.search-list{
+  border : 1px solid black;
+  width : 60%;
+  height: 30vh;
+  overflow : auto;
+  position: absolute;
+  left : 20%;
+  background: white;
+  z-index: 100;
+}
+
+.hidden{
+  visibility : hidden;
+  color : red;
+}

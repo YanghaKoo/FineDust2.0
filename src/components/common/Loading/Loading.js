@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const Loading = ({pageHeight, logoWidth}) => {
 
@@ -16,7 +16,7 @@ const Loading = ({pageHeight, logoWidth}) => {
 
   return (
     <div className="loading" style={divStyle}>
-      <img style={imgStlye} id="cloud "src="http://download.seaicons.com/icons/iconsmind/outline/512/Cloud-icon.png" />
+      <img style={imgStlye} id="cloud" src="https://cdn3.iconfinder.com/data/icons/pyconic-icons-1-2/512/cloud-outline-512.png" />
     </div>
   );
 };

@@ -1,4 +1,12 @@
-.main-template {    
-  text-align: center;  
+.main-template {
+  text-align: center;
 
+  .main-image {
+    width: 100%;
+    height: 400px;
+    background-image: url("https://i.pinimg.com/originals/1b/1d/87/1b1d875ec00346167600abb7623a1170.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
 }

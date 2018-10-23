@@ -22,7 +22,7 @@ class DetailTemplate extends Component {
     if(!infos[0]){
       DustActions.getDust();
       return (
-        <Loading pageHeight={90} logoWidth={70}/>
+        <Loading pageHeight={90} logoWidth={50}/>
       )
      }
 

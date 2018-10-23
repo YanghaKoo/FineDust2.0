@@ -3,6 +3,7 @@
 import React, { Component } from "react";
 import "./DaumMap.scss";
 import { withRouter } from "react-router-dom";
+import Loading from "components/common/Loading"
 
 class DaumMap extends Component {
   // 현재 지도 중심 좌표 일시저장
@@ -31,7 +32,7 @@ class DaumMap extends Component {
     return (
       <div className="daum-map">
         <div id="map">
-          <center>loading...</center>          
+          <Loading pageHeight={50} logoWidth={50}/>
         </div>
       </div>
     );

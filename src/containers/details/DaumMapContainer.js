@@ -4,7 +4,7 @@ import { withRouter } from "react-router-dom";
 import DaumMap from "components/details/DaumMap";
 import { connect } from "react-redux";
 import * as dustActions from "store/modules/dustInfo";
-import * as latlngActions from "store/modules/latlng";
+//import * as latlngActions from "store/modules/latlng";
 import { bindActionCreators } from "redux";
 import Loading from "components/common/Loading";
 

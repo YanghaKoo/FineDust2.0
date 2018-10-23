@@ -11,7 +11,8 @@ class ParkInfoContainer extends Component{
     
     if(!parks[0]){
       ParkActions.getPark()
-      return (<Loading pageHeight={30} logoWidth={500}/>)
+      
+      return (<Loading pageHeight={30} logoWidth={50}/>)
     }
 
     return (

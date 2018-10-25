@@ -8,7 +8,7 @@ class SearchBar extends Component {
   };
 
   render() {
-    const { term, onKeyPress, onBlur } = this.props;
+    const { term, onKeyPress, onBlur, onKeyDown } = this.props;
 
     return (
       <div className="search-bar-template">
@@ -22,7 +22,8 @@ class SearchBar extends Component {
             placeholder={"Search Your Seoul!"}
             value={term}
             onChange={this.handleChange}
-            onKeyPress={onKeyPress}
+            onKeyPress={onKeyPress}                       
+            onKeyDown={onKeyDown}
             onBlur={onBlur}
           />
           

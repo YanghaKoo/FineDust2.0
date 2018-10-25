@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import DaumMapContainer from "containers/details/DaumMapContainer";
 import "./DetailTemplate.scss";
-import SearchBarContainer from "containers/common/SearchBarContainer";
+import SearchBarContainer from "containers/main/SearchBarContainer";
 import Info from "../../components/details/Info/Info";
 import { connect} from 'react-redux'
 import { bindActionCreators } from "redux";

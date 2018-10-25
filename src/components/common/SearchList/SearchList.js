@@ -1,27 +1,33 @@
 import React, { Component } from "react";
-import SearchListItem from 'components/common/SearchListItem'
+import SearchListItem from 'components/main/SearchListItem'
 
 import "./SearchList.scss";
 
 class SearchList extends Component {
 
+  shouldComponentUpdate(nextProps, nextState) {
+    //if(this.props.index !== nextProps.index) return false
+    return this.props.infos !== nextProps.infos
+  }
+    
   render() {
-    console.log("SearchList render");
+   // console.log("SearchList render");
     
-    const { term, infos } = this.props;
+    const { term, infos, index, setIndex } = this.props;   
+    //console.log(infos)
+    setIndex()
     
-    // if (!infos[0]) {
-    //   return <Loading pageHeight={50} logoWidth={50} />;
-    // }
-    
-    const list = infos.map(item => {
+
+    const list = infos.map((item,idx) => {
       return (        
         <SearchListItem
           cityName={item.stationname}
           key={item.id}
           id={item.id}
           khaigrade={item.khaigrade}
-          info={item}          
+          //info={item}         
+          index={index}
+          idx={idx}
         />
       );
     });

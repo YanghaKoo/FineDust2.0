@@ -4,10 +4,7 @@ import * as inputActions from "store/modules/input";
 import * as dustActions from "store/modules/dustInfo";
 import { bindActionCreators } from "redux";
 import { withRouter } from "react-router";
-
 import SearchList from "components/common/SearchList";
-
-//import { withRouter} from 'react-router-dom'
 import SearchBar from "components/common/SearchBar";
 
 class SearchBarContainer extends Component {

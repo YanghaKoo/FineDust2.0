@@ -1,17 +1,18 @@
+@import '~styles/utils';
+
 .search-list{
+  background: $oc-indigo-1;
   border : 1px solid black;
   width : 60%;
   height: 30vh;
   overflow : auto;
   position: absolute;
   left : 20%;
-  background: white;
+  
   z-index: 100;
-  box-shadow: -60px 0px 100px -90px #000000,
-               60px 0px 100px -90px #000000;
+  @include material-shadow(5);  
 }
 
 .hidden{
-  visibility : hidden;
-  color : red;
+  visibility : hidden;  
 }

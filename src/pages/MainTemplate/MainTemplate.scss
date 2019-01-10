@@ -1,12 +1,44 @@
+@import '~styles/utils';
+
 .main-template {
   text-align: center;
 
   .main-image {
     width: 100%;
-    height: 400px;
-    background-image: url("https://i.pinimg.com/originals/1b/1d/87/1b1d875ec00346167600abb7623a1170.jpg");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+    height: 50vh;
+    position: relative;
+
+    img {
+      height: 100%;
+      width : 100%;            
+      z-index: 3;  
+      // object-fit: contain;
+    }
+    .centered{
+      color : white;
+      width : 100%;
+      font-size : 3rem;
+      font-weight: 900;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+      @include media("<medium"){
+        font-size: 2rem;
+      }
+    }
+
+    .black{
+      background: black;
+      width : 100%;
+      height: 100%;
+      opacity: 0.5;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+    }
   }
 }

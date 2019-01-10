@@ -10,13 +10,10 @@ import Loading from "components/common/Loading";
 
 class DaumMapContainer extends Component {
   // 현재 지도 중심 좌표 일시저장
-
   render() {
     const { infos, DustActions, match } = this.props;
     console.log("DaumMap Container")
-    //console.log(match.params.id);
-
-    // 흠 맵만 로딩으로 돌리고 싶은데
+        
     if (!infos[0]) {
       DustActions.getDust();
       return <Loading pageHeight={50} logoWidth={70} />;
@@ -26,6 +23,7 @@ class DaumMapContainer extends Component {
       <DaumMap
         infos={infos}
         change={match.params.id}
+        id={this.props.id}
         //  lat={lat}
         //  lng={lng}
         //  onChange={LatlngActions.change}

@@ -1,16 +1,32 @@
-.detail-template {
+@import '~styles/utils';
+
+.whole {
   display : flex;
-  justify-content: space-between;
-  flex-wrap : wrap;
+  flex-direction: column;
+  justify-content: space-around;  
+  .searchbar {
+    text-align: center;
+  }
+
+  .detail-template {
+    height: calc(100vh - 200px);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    .rigth-part {
+      display: flex;
+      flex-direction: column;
+      width: 80%;
+      height: 80vh;
+      background: #f1f3f5;
+      @include media("<large"){
+        width : 100%;
+        height: auto;
+      }
+      .park-info {
+        height: 32vh;
+        background: #f1f3f5;
+      }
+    }
+  }
 }
-
-.rigth-part {
-   width : 80%;
-   height : 90vh;
-   background: #f1f3f5;
- }
-
- .park-info {
-   height : 40vh;
-   background: #f1f3f5;
- }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import SearchBarContainer from 'containers/main/SearchBarContainer'
 import "./MainTemplate.scss"
+import mainImage from '../../images/mainimage.jpg'
 
 
 class MainTemplate extends Component {
@@ -8,7 +9,12 @@ class MainTemplate extends Component {
     return (
       <div className="main-template">       
         <SearchBarContainer />
-        <div className="main-image"></div>
+        <br/>
+        <div className="main-image">        
+          <img src={mainImage} alt=''/>
+          <div className="centered">WHO기준 우리동네 미세먼지</div>
+          <div className="black"></div>
+        </div>
       </div>
     );
   }

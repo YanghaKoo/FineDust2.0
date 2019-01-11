@@ -24,6 +24,7 @@ class ParkInfo extends Component {
     return (
       <div className="park-info">
         {parks[0].p_nm}
+        {/* {JSON.stringify(parks)} */}
       </div>
     );
   }

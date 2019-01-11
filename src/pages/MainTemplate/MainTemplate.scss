@@ -1,37 +1,81 @@
-@import '~styles/utils';
+@import "~styles/utils";
 
 .main-template {
   text-align: center;
+  height: calc(100vh - 65px);
+  overflow: hidden;
+
+  @include media("<medium"){    
+    height: 130vh;
+  }
 
   .main-image {
     width: 100%;
-    height: 50vh;
-    position: relative;
+    position: relative;    
 
     img {
-      height: 100%;
-      width : 100%;            
-      z-index: 3;  
-      // object-fit: contain;
+      height: calc(100vh - 65px);
+      width: 100%;
+      z-index: 3;
+      @include media("<medium"){
+        height: 130vh;
+      }
+
     }
-    .centered{
-      color : white;
-      width : 100%;
-      font-size : 3rem;
+
+    .centered {      
+      width: 100%;
+      height: 80vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      
       font-weight: 900;
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
       z-index: 2;
-      @include media("<medium"){
+      @include media("<medium") {
         font-size: 2rem;
+        height: auto;      
+        
+      }
+      .content{
+        color: white;
+        font-size: 3rem;
+        @include media("<medium") {
+          margin-top : 30px;
+          font-size: 2rem;
+          margin-bottom : 50px;
+        }
+      }
+
+      .functions {
+        
+        display: flex;
+                
+        justify-content: space-around;
+        flex-wrap: wrap;
+        @include media("<medium") {
+          width : 300px;     
+          height: 1000px;      
+        }
+        
+        .function {
+          color : white;
+          padding : 10px;
+          border-radius: 50%;
+          background: $oc-blue-2;
+          width: 300px;
+          height: 300px;
+        }
       }
     }
 
-    .black{
+    .black {
       background: black;
-      width : 100%;
+      width: 100%;
       height: 100%;
       opacity: 0.5;
       position: absolute;

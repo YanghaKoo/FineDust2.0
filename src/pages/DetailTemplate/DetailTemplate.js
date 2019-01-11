@@ -24,7 +24,7 @@ class DetailTemplate extends Component {
     return (
       <div className="whole">
         <div className="searchbar">
-          <SearchBarContainer />
+          <SearchBarContainer bottomColor={null} fontColor="black"/>
         </div>
         <div className="detail-template" style={{ background: "white" }}>
           <Info infos={selected} />

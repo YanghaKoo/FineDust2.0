@@ -10,9 +10,7 @@ class App extends Component {
   render() {    
     return (
       <Router>
-        <div className="app">
-          {/* <Link to={'/'}>홈으로</Link> */}
-          {/* <NavBar /> */}
+        <div className="app">          
           <NavBar />
           <Switch>
             <Route

@@ -8,8 +8,7 @@ class SearchBar extends Component {
   };
 
   render() {
-    const { term, onKeyPress, onBlur, onKeyDown } = this.props;
-
+    const { term, onKeyPress, onBlur, onKeyDown, bottomColor, fontColor } = this.props;    
     return (
       <div className="search-bar-template">
         <form
@@ -19,12 +18,13 @@ class SearchBar extends Component {
           }}
         >
           <input
-            placeholder={"Search Your Seoul!"}
+            placeholder="Search Your Seoul!"
             value={term}
             onChange={this.handleChange}
             onKeyPress={onKeyPress}                       
             onKeyDown={onKeyDown}
             onBlur={onBlur}
+            style={{borderBottom : `2px solid ${bottomColor}`, color : fontColor,}}          
           />
           
         </form>

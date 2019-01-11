@@ -22,7 +22,7 @@ class SearchBarContainer extends Component {
     const { InputActions } = this.props;
     setTimeout(() => {
       InputActions.change("");
-    }, 100);
+    }, 150);
   };
   
   // searchbar에서 엔터누르면 검색결과의 가장 위에 요소의 디테일 페이지로 이동
@@ -47,6 +47,7 @@ class SearchBarContainer extends Component {
     }
   };
 
+  // 검색 리스트에서 방향키로 탐색하는 로직
   handleArrowKeys = (e) => {    
     const {infos, term} = this.props
     const { index } = this.state
@@ -87,7 +88,7 @@ class SearchBarContainer extends Component {
   }
 
   render() {
-    const { InputActions, term, infos } = this.props;
+    const { InputActions, term, infos, bottomColor , fontColor} = this.props;
     const {index} = this.state
 
     const filteredData = infos.filter(
@@ -103,6 +104,8 @@ class SearchBarContainer extends Component {
           onKeyPress={this.handleKeyPress}
           onKeyDown={this.handleArrowKeys}
           onBlur={this.handleBlur}
+          bottomColor={bottomColor}          
+          fontColor={fontColor}
         />
         <SearchList term={term} infos={filteredData} index={index} setIndex={this.setIndex}/>
       </div>

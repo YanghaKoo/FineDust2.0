@@ -1,12 +1,14 @@
 @import url("//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css");
 
 body {
+  
   margin : 0;
   background : white;
 }
 
 // box-sizing 일괄 설정
 * {
+  outline : none;
   font-family: 'Spoqa Han Sans', 'Sans-serif';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

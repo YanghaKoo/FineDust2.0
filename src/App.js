@@ -3,7 +3,11 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import MainTemplate from 'pages/MainTemplate/'
 import DetailTemplate from 'pages/DetailTemplate'
+import NotFound from 'pages/NotFound'
+
+
 import NavBar from "components/common/NavBar/NavBar";
+
 
 // 리액트 라우팅 설정을 해 여기다가
 class App extends Component {
@@ -22,6 +26,7 @@ class App extends Component {
               path="/"
               component={MainTemplate}
             />
+            <Route path='*' exact={true} component={NotFound} />
           </Switch>
         </div>
       </Router>

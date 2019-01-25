@@ -90,6 +90,8 @@ class DaumMap extends Component {
 
     const btnValue = toggle ? "추가모드 종료" : "좌표 추가하기";
 
+    const userSubmitStyle = toggle ? null : { height: "100px" };
+
     return (
       <div className="daum-map">
         {/* <PlayGround map={this.map}/> */}
@@ -97,25 +99,32 @@ class DaumMap extends Component {
           <Loading pageHeight={50} logoWidth={50} />
         </div>
 
-        <div className="user-submit">
+        <div className="user-submit" style={userSubmitStyle}>
           <input
             type="button"
             value={btnValue}
             onClick={this.handleToggle}
-            className="add-button"
+            className="add button"
           />
+          <div style={{ textAlign: "center" }}>
+            {this.state.markerLat}
+            <br />
+            {this.state.markerLng}
+          </div>
+
           {toggle && (
             <div className="popup">
               <input
                 type="text"
                 value={this.state.userInsert}
                 onChange={this.handleChange}
+                className="user-insert"
               />
               <input
                 type="button"
                 onClick={this.handleSubmit}
                 value="제출"
-                className="submit-button"
+                className="submit button"
               />
             </div>
           )}

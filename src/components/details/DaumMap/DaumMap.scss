@@ -17,12 +17,52 @@
 .user-submit {
   width : 200px;
   height: 200px;
-  background: $oc-blue-1;
+  background: $oc-gray-5;
+  opacity: 0.8;
+  border-radius: 30px;
   position: absolute;
-  z-index: 999;
-  input {
-    font-size : 1.5rem;
+  z-index: 5;
+  display : flex;
+  flex-direction: column;
+  justify-content: space-between ;
+
+  .popup{
+
+
   }
+
+  .button{
+    cursor : pointer;
+    font-size : 1.5rem;
+    outline : none;
+    border : none;
+    background: $oc-blue-6;
+    color : white;
+    font-weight: 800;
+    width : 100%;
+    height: 50px;    
+    
+
+    &:hover {
+      background: $oc-blue-8;
+    }
+  }
+
+  
+  .submit{
+    border-radius: 0 0 20px 20px;
+  }
+
+  .add{
+    border-radius: 20px 20px 0 0;
+  }
+
+  .user-insert{
+    font-size: 1.5rem;
+    
+  }
+  
+ 
 
   
 

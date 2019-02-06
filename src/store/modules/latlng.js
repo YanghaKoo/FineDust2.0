@@ -33,7 +33,7 @@ export default handleActions(
       return { ...state, mapLevel: action.payload };
     },
     [changeNowGu] : (state, action) => {
-      console.log("씨발", action.payload)
+      console.log("리덕스부분", action.payload)
       return { ...state, nowGu : action.payload }
 
     }

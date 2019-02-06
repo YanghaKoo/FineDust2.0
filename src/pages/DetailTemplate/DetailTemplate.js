@@ -13,59 +13,71 @@ import Loading from "components/common/Loading";
 // import ParkInfoContainer from "containers/details/ParkInfoContainer";
 
 class DetailTemplate extends Component {
-
   state = {
-    selected : null
-  }
+    selected: null
+  };
 
-  componentDidMount() {
-    const { infos, match,LatlngActions } = this.props;
-        
-    
+  componentWillReceiveProps(nextProps) {
+    const {infos} = this.props
+    const nextInfos = nextProps.infos
+
+    if (infos !== nextInfos) {
+      const { infos, match, LatlngActions } = this.props;
       const selected = infos.find(item => {
         return item.id === Number(match.params.id);
       });
-  
-      if(selected){    
-        LatlngActions.changeNowGu(selected.stationname)
-      
-      }        
+
+      if (selected) {
+        LatlngActions.changeNowGu(selected.stationname);
+      }
+    }
   }
-  
 
   render() {
-    const { infos, match, DustActions, ParkActions, parks, LatlngActions, nowGu } = this.props;
+    const {
+      infos,
+      match,
+      DustActions,
+      ParkActions,
+      LatlngActions,
+      parks,      
+      nowGu
+    } = this.props;
+
+
+    let selected
+    if(infos){
+      selected = infos.find(item => {
+        return item.stationname === nowGu;
+      });  
+    }else{
+      selected = infos.find(item => {      
+        return item.id === Number(match.params.id);
+      });
+    }
     
-    const selected = infos.find(item => {      
-      return item.id === Number(match.params.id);
-    });
+    
 
-    // // 현재 구 설정
-    // if(selected){    
-    //   LatlngActions.changeNowGu(selected.stationname)
-    //   // console.log(nowGu)
-    // }
-
-        
     if (!infos[0] || !parks[0]) {
       DustActions.getDust();
-      ParkActions.getPark();      
+      ParkActions.getPark();
       return <Loading pageHeight={90} logoWidth={50} />;
     }
-
-//    console.log(selected)
 
     return (
       <div className="whole">
         <div className="searchbar">
-          <SearchBarContainer bottomColor={null} fontColor="black"/>
+          <SearchBarContainer bottomColor={null} fontColor="black" />
         </div>
         <div className="detail-template" style={{ background: "white" }}>
-          <Info infos={selected} nowGu={nowGu} />
+          <Info infos={selected}/>
           <div className="rigth-part">
-            <DaumMapContainer id={match.params.id} parks={parks} stationname={selected.stationname} />
-            
-            
+            <DaumMapContainer
+              id={match.params.id}
+              parks={parks}
+              
+            />
+
             {/* <div className="park-info">
               <ParkInfoContainer id={match.params.id}/>
             </div> */}
@@ -79,12 +91,12 @@ class DetailTemplate extends Component {
 export default connect(
   state => ({
     infos: state.dustInfo.infos,
-    parks : state.parks.parks,
-    nowGu : state.latlng.nowGu
+    parks: state.parks.parks,
+    nowGu: state.latlng.nowGu
   }),
   dispatch => ({
     DustActions: bindActionCreators(dustActions, dispatch),
-    ParkActions : bindActionCreators(parkActions, dispatch),
-    LatlngActions : bindActionCreators(latlngActions, dispatch)
+    ParkActions: bindActionCreators(parkActions, dispatch),
+    LatlngActions: bindActionCreators(latlngActions, dispatch)
   })
 )(DetailTemplate);

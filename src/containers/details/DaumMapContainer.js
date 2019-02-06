@@ -13,7 +13,7 @@ import { bindActionCreators } from "redux";
 class DaumMapContainer extends Component {
   // 현재 지도 중심 좌표 일시저장
   render() {
-    const { infos, match, stationname, nowGu, LatlngActions } = this.props;
+    const { infos, match, nowGu, LatlngActions } = this.props;
     
     // console.log("DaumMap Container")        
     // if (!infos[0]) {
@@ -26,8 +26,7 @@ class DaumMapContainer extends Component {
         infos={infos}
         change={match.params.id}
         id={this.props.id}
-        parks={this.props.parks}        
-        stationname={stationname}
+        parks={this.props.parks}                
         nowGu={nowGu}
         LatlngActions={LatlngActions}
       />

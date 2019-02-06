@@ -3,7 +3,19 @@ import "./Info.scss";
 
 class Info extends Component {
   render() {
-    const { infos } = this.props
+    const { infos } = this.props;
+
+    if (!infos)
+      return (
+        <div className="info">
+          <div className="sorry">
+            <div className="inner">
+              <img src="//cdn.onlinewebfonts.com/svg/img_329186.png" width={200} height={200} />
+              <div className="message">죄송합니다.<br/> 아직은 일부지역만 이용이 가능합니다.<br/>범위를 조금 벗어나셨습니다.</div>
+            </div>
+          </div>
+        </div>
+      );
 
     let result = null;
     let background = null;
@@ -12,6 +24,8 @@ class Info extends Component {
     "o3value":"0.046","no2value":"0.020","pm10value":"39","khaivalue":"66","khaigrade":"100","so2grade":"1",
     "cograde":"1","o3grade":"2","no2grade":"1","pm10grade":"2","lat":37.5640907,"lng":126.99794029999998}
     */
+
+    
 
     if (infos.pm10value <= 15) {
       result = "최고^_^";
@@ -67,10 +81,10 @@ class Info extends Component {
         {/* 상세정보 포함 */}
         <div className="details">
           <div className="dropbtn">
-            <div style={{textAlign : 'center'}}>
+            <div style={{ textAlign: "center" }}>
               <b>상세정보 보기</b>
             </div>
-            <div style={{ display: "flex", justifyContent: "center"}}>
+            <div style={{ display: "flex", justifyContent: "center" }}>
               <ul>
                 <li>미세먼지(PM10) 농도 : {infos.pm10value}</li>
                 <li>초미세먼지(PM2.5)농도 : {infos.pm25value} </li>

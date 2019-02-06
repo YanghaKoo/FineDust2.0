@@ -11,11 +11,11 @@ class DaumMap extends Component {
     testdb: [],
     markerLat: null,
     markerLng: null,
-    
-    
-    
+    token : false
     
   };
+
+  positions = []
 
   handleToggle = () => {
     this.setState({
@@ -54,25 +54,34 @@ class DaumMap extends Component {
     );
   };
 
+
+
+
+
+
   componentWillReceiveProps(nextProps) {
+    
+    // nowGu 바뀌는걸론 리렌더링 하지않게
+    if (this.props.nowGu !== nextProps.nowGu) return;
+
     const { infos, match } = nextProps;
     const lat = infos[Number(match.params.id) - 1].lat;
     const lng = infos[Number(match.params.id) - 1].lng;
-          
-    this.makeMap(lat, lng);
-    
+
+    this.makeMap(lat, lng, 5);
   }
 
+
+
   // 현재 지도 중심 좌표 일시저장
-
-  makeMap = (lat, lng) => {
-    const { parks, stationname } = this.props;
-
-    // map 만들기
+  makeMap = (lat, lng, level) => {
+    
+    const { parks, nowGu } = this.props;
+   
     const mapContainer = document.getElementById("map"),
       mapOption = {
         center: new daum.maps.LatLng(lat, lng),
-        level: 5
+        level: level
       };
     const map = new daum.maps.Map(mapContainer, mapOption);
 
@@ -88,12 +97,15 @@ class DaumMap extends Component {
     marker.setMap(map);
 
     // 공원 마커정보 표시
-    const positions = [];
+    // const positions = [];
     parks.forEach(park => {
-           
       // 이 if문이 해당 구의 공원 정보만 가져오는 것
-      if (park.p_address.match(stationname)) {        
-        positions.push({
+      if (park.p_address.match(nowGu)) {
+        
+        // 중복 방지
+        if(this.positions.find(item => item.title === park.p_nm)) return
+
+        this.positions.push({
           title: park.p_nm,
           latlng: new daum.maps.LatLng(Number(park.lat), Number(park.lng)),
           content: `<img src=${park.p_img} alt="" width="200px"/>
@@ -105,8 +117,10 @@ class DaumMap extends Component {
         }</div>        
         `
         });
-      }     // if문 
+      } // if문
     });
+
+    console.log(this.positions)
 
     const parkMarkerImage =
       "//t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
@@ -125,7 +139,9 @@ class DaumMap extends Component {
     const imageSize = new daum.maps.Size(24, 35);
     const markerImage = new daum.maps.MarkerImage(parkMarkerImage, imageSize);
 
-    const parkMarkers = positions.map(position => {
+
+    // 공원 표시 마커들
+    const parkMarkers = this.positions.map(position => {
       const infowindow = new daum.maps.InfoWindow({
         content: position.content // 인포윈도우에 표시할 내용
       });
@@ -163,45 +179,73 @@ class DaumMap extends Component {
       });
     });
 
-    
     // 지도 중심 좌표 기준으로 구 군 찾기
-    daum.maps.event.addListener(map, 'center_changed', ()=> {
-      const center = map.getCenter()
-      const lng  = center.getLng()
-      const lat = center.getLat()
-      console.log(lat, lng)
-      
-      new daum.maps.services.Geocoder().coord2Address(lng, lat, (result, status)=> {        
+    daum.maps.event.addListener(map, "center_changed", () => {
+      const center = map.getCenter();
+      const lng = center.getLng();
+      const lat = center.getLat();
+      // console.log(lat, lng)
+      console.log(map.getLevel())
 
-        if(result[0] && status === daum.maps.services.Status.OK) {
-          const {stationname, LatlngActions, nowGu} = this.props
-          const { region_2depth_name : gu} = result[0].address        
-          
-          if(stationname !== gu){
-            LatlngActions.changeNowGu(gu)
-            console.log(nowGu)
+      new daum.maps.services.Geocoder().coord2Address(
+        lng,
+        lat,
+        (result, status) => {
+          if (result[0] && status === daum.maps.services.Status.OK) {
+            const { LatlngActions, nowGu } = this.props;
+            const { region_2depth_name: gu } = result[0].address;
+            
+
+
+            if (nowGu !== gu) {
+              LatlngActions.changeNowGu(gu);
+              
+              parks.forEach(park => {
+                // 이 if문이 해당 구의 공원 정보만 가져오는 것
+                if (park.p_address.match(nowGu)) {
+                                    
+                  // 중복 방지
+                  if(this.positions.find(item => item.title === park.p_nm)) return              
+                  this.positions.push({
+                    title: park.p_nm,
+                    latlng: new daum.maps.LatLng(Number(park.lat), Number(park.lng)),
+                    content: `<img src=${park.p_img} alt="" width="200px"/>
+                  <div style="width : 200px; text-align : center;">${park.p_nm}</div>
+                  <div>${
+                    park.p_address.length >= 17
+                      ? park.p_address.slice(0, 14) + "..."
+                      : park.p_address
+                  }</div>        
+                  `
+                  });
+                  this.makeMap(lat,lng, map.getLevel())
+                } // if문
+              });
+              
+
+            }
 
 
 
 
 
           }
-        }                        
-      })      
-    })
+        }
+      );
+    });
+ 
+
   };
 
   render() {
-    console.log("DaumMap rendered");
+    // console.log("DaumMap rendered");
     const { toggle } = this.state;
 
     const btnValue = toggle ? "추가모드 종료" : "좌표 추가하기";
     const userSubmitStyle = toggle ? null : { height: "100px" };
 
-    
-
     return (
-      <div className="daum-map">        
+      <div className="daum-map">
         <div id="map">
           <Loading pageHeight={80} logoWidth={50} />
         </div>

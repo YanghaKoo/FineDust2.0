@@ -1,13 +1,14 @@
 @import '~styles/utils';
 
 .daum-map{  
+  
   @include media("<large"){
     width : 100%;
     height: auto;
   }
-  #map {
+  #map {    
     width : 100%;
-    height: 50vh;
+    height: calc(100vh - 140px);
   }
   display: flex;
   justify-content: flex-end;
@@ -26,10 +27,6 @@
   flex-direction: column;
   justify-content: space-between ;
 
-  .popup{
-
-
-  }
 
   .button{
     cursor : pointer;
@@ -63,6 +60,10 @@
   }
   
  
+
+  .overlay{
+    color :red;
+  }
 
   
 

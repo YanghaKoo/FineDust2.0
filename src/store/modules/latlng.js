@@ -2,15 +2,19 @@ import { createAction, handleActions } from "redux-actions";
 
 const CHANGE = "latlng/CHANGE";
 const SCALE = "latlng/SCALE";
+const NOWGU = "latlng/NOWGU";
 
 export const change = createAction(CHANGE);
 export const scale = createAction(SCALE);
+export const changeNowGu = createAction(NOWGU);
+
 // { type : "latlng/CHANGE"}
 
 // 제주도
 const initialState = {
   lat : 0,
-  lng : 0
+  lng : 0,
+  nowGu : null
 };
 
 // 2개를 매개변수로 받으니까 action.payload에 객체로 (lat,lng 가진) 넘겨줘야 겠네
@@ -27,6 +31,11 @@ export default handleActions(
     [scale]: (state, action) => {
       console.log(action.payload + "scale");
       return { ...state, mapLevel: action.payload };
+    },
+    [changeNowGu] : (state, action) => {
+      console.log("씨발", action.payload)
+      return { ...state, nowGu : action.payload }
+
     }
   },
   initialState

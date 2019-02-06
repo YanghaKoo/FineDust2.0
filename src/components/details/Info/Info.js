@@ -3,7 +3,8 @@ import "./Info.scss";
 
 class Info extends Component {
   render() {
-    const infos = this.props.infos[0];
+    const { infos } = this.props
+
     let result = null;
     let background = null;
     /*

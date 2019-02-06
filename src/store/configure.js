@@ -5,7 +5,8 @@ import penderMiddleware from 'redux-pender'
 
 // 미들웨어를 여기다가 처리
 const configure = () =>{
-  const store = createStore(modules, applyMiddleware(penderMiddleware()))
+  const store = createStore(modules, applyMiddleware(penderMiddleware()) )
+  
   return store
 }
 

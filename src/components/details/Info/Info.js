@@ -6,7 +6,7 @@ import Chart from "../../../lib/Chart";
 class Info extends Component {
   render() {
     const { infos, beforeInfos } = this.props;
-    let data = []
+    let data = [];
 
     if (!infos)
       return (
@@ -31,17 +31,31 @@ class Info extends Component {
       const _2daybefore = beforeInfos["2daybefore"].find(item => {
         return item.stationname === infos.stationname;
       });
-      
+
       data = [
-        {name: '-2days', "미세": _2daybefore.pm10value, "초미세" : _2daybefore.pm25value, amt: 2400},
-        {name: '-1day', "미세": _1daybefore.pm10value, "초미세": _1daybefore.pm25value, amt: 2210},
-        {name: 'Now!', "미세": infos.pm10value, "초미세": infos.pm25value, amt: 2290},
-      ];        
+        {
+          name: "-2days",
+          미세: _2daybefore.pm10value,
+          초미세: _2daybefore.pm25value,
+          amt: 2400
+        },
+        {
+          name: "-1day",
+          미세: _1daybefore.pm10value,
+          초미세: _1daybefore.pm25value,
+          amt: 2210
+        },
+        {
+          name: "Now!",
+          미세: infos.pm10value,
+          초미세: infos.pm25value,
+          amt: 2290
+        }
+      ];
     }
 
     let result = null;
     let background = null;
-
 
     /*
     {"id":1,"stationname":"중구","infostime":"2018-08-09 16:00","so2value":"0.003","covalue":"0.2",
@@ -77,27 +91,31 @@ class Info extends Component {
 
     return (
       <div className="info">
-        <div className="main">
-          <div className="message">
-          <h2>{infos.stationname}의 오늘 공기는</h2>
-          <h1>
-            {result} ({infos.pm10value} ㎍/㎥){" "}
-          </h1>
+        <div className="main-wrapper">
+          <div className="main">
+            <div className="message">
+              
+                <div><span className="city">{infos.stationname}</span>의 오늘 공기는</div>
+                <div><span className="result">{result}</span>   ({infos.pm10value} ㎍/㎥){" "}</div>
+              
+            </div>
+            <center>
+              <div
+                style={{
+                  background,
+                  width: "100px",
+                  height: "100px",
+                  borderRadius: "50px"
+                }}
+              />
+            </center>
           </div>
-          <center>
-            <div
-              style={{
-                background,
-                width: "100px",
-                height: "100px",
-                borderRadius: "50px"
-              }}
-            />
-          </center>
         </div>
 
-        <div className="middle"> 
-          <Chart data={data} />
+        <div className="middle-wrapper">
+          <div className="middle">
+            <Chart data={data} />
+          </div>
         </div>
 
         {/* 상세정보 포함 */}

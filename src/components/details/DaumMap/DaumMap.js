@@ -57,15 +57,18 @@ class DaumMap extends Component {
   };
 
 
-
-
-
+  componentDidMount() {
+    const { infos, match } = this.props;
+    const lat = infos[Number(match.params.id) - 1].lat;
+    const lng = infos[Number(match.params.id) - 1].lng;
+    this.makeMap(lat, lng, 5);
+  }
+  
 
   componentWillReceiveProps(nextProps) {
     
     // nowGu 바뀌는걸론 리렌더링 하지않게
     if (this.props.nowGu !== nextProps.nowGu) return;
-
     const { infos, match } = nextProps;
     const lat = infos[Number(match.params.id) - 1].lat;
     const lng = infos[Number(match.params.id) - 1].lng;
@@ -186,14 +189,16 @@ class DaumMap extends Component {
       const lng = center.getLng();
       const lat = center.getLat();      
       
+      try{
+
+      
       new daum.maps.services.Geocoder().coord2Address(
         lng,
         lat,
         (result, status) => {
           if (result[0] && status === daum.maps.services.Status.OK) {
             const { LatlngActions, nowGu } = this.props;
-            const { region_2depth_name: gu } = result[0].address;
-            
+            const { region_2depth_name: gu } = result[0].address;     
 
 
             if (nowGu !== gu) {
@@ -230,14 +235,16 @@ class DaumMap extends Component {
 
           }
         }
-      );
+      )}catch(e){
+        console.log(e)
+      };
     });
  
 
   };
 
   render() {
-    // console.log("DaumMap rendered");
+    
     const { toggle } = this.state;
 
     const btnValue = toggle ? "추가모드 종료" : "좌표 추가하기";

@@ -1,6 +1,7 @@
 @import '~styles/utils';
 
 .daum-map{      
+  
   @include media("<large"){
     width : 100%;
     height: auto;

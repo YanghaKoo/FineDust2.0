@@ -13,19 +13,35 @@
     width : 100%;
     height: auto;
   }
+  .main-wrapper{
+    display: flex;
+    justify-content: center;
+  }
 
   .main {
-    background: #e9ecef;
+    background: #dbe4ff;
     text-align: center;
     padding-bottom : 10px;
-    width :100%;
+    width :95%;
     min-width: 325px;   
+    border-radius: 20px;
+    @include material-shadow(3);
+    
+    
          
   
     .message{      
       display : flex;
       flex-wrap: wrap;
       justify-content: space-around;
+      .city{
+        font-size : 1.5rem;
+        font-weight: 700;
+      }
+      .result{
+        font-size : 1.5rem;
+        font-weight: 900;
+      }
     }
   }
 
@@ -49,13 +65,22 @@
     
   }
 
+  .middle-wrapper{
+    display :flex;
+    justify-content: center;
+  }
+
   .middle {
     //background: $oc-red-2;
     
     text-align: center;
     height : auto;
-    margin-left : -20px;
-    margin-top : -10px;
+    
+    // background: #dbe4ff;
+    border : 1px solid #dbe4ff;
+    border-radius: 20px;
+    width : 95%;
+    @include material-shadow(3);
   }
 
   .details {

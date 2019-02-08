@@ -17,6 +17,19 @@ class DetailTemplate extends Component {
     selected: null
   };
 
+
+  async componentDidMount() {
+
+    const {infos, parks, DustActions, ParkActions} = this.props
+    if (!infos[0] || !parks[0] ) {
+      await Promise.all([
+        DustActions.getDust(),
+        DustActions.getBeforeDust(),
+        ParkActions.getPark()
+      ]) 
+    }
+  }
+  
   componentWillReceiveProps(nextProps) {
     const {infos} = this.props
     const nextInfos = nextProps.infos
@@ -28,6 +41,7 @@ class DetailTemplate extends Component {
       });
 
       if (selected) {
+        console.log("detail template")
         LatlngActions.changeNowGu(selected.stationname);
       }
     }
@@ -47,7 +61,7 @@ class DetailTemplate extends Component {
     } = this.props;
 
     
-
+    console.log(beforeInfos)
 
     let selected
     if(infos){
@@ -62,10 +76,10 @@ class DetailTemplate extends Component {
     
     
 
-    if (!infos[0] || !parks[0]) {
-      DustActions.getDust();
-      DustActions.getBeforeDust()
-      ParkActions.getPark();
+    if (!infos[0] || !parks[0] ) {
+      // DustActions.getDust();
+      // DustActions.getBeforeDust()
+      // ParkActions.getPark();
       return <Loading pageHeight={90} logoWidth={50} />;
     }
 
@@ -73,7 +87,7 @@ class DetailTemplate extends Component {
     return (
       <div className="whole">
         <div className="searchbar">
-          <SearchBarContainer bottomColor={null} fontColor="black" />
+          <SearchBarContainer bottomColor={"white"} fontColor="black" />
         </div>
         <div className="detail-template" style={{ background: "white" }}>
           <Info infos={selected} beforeInfos={beforeInfos}/>

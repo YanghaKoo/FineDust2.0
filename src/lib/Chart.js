@@ -53,8 +53,8 @@ class Chart extends Component {
               <Area
                 type="monotone"
                 dataKey="미세"
-                stroke="#8884d8"
-                fill="#8884d8"
+                stroke="#a5d8ff"
+                fill="#a5d8ff"
               />
             </AreaChart>
           </center>
@@ -77,8 +77,8 @@ class Chart extends Component {
               <Area
                 type="monotone"
                 dataKey="초미세"
-                stroke="#82ca9d"
-                fill="#82ca9d"
+                stroke="#c5f6fa"
+                fill="#c5f6fa"
               />
             </AreaChart>
           

@@ -6,12 +6,19 @@ function getDustApi(){
   return axios.get('https://api.myjson.com/bins/19pe4o')
 }
 
+function getDaysBeforeDustApi(){
+  return axios.get("https://api.myjson.com/bins/e4ako")
+}
+
 const GET_DUST = 'GET_DUST'
+const GET_BEFORE_DUST = 'GET_BEFORE_DUST'
 
 export const getDust = createAction(GET_DUST, getDustApi)
+export const getBeforeDust = createAction(GET_BEFORE_DUST, getDaysBeforeDustApi)
 
 const initialState ={
-  infos : []
+  infos : [],
+  beforeInfos : []
 }
 
 // 2개를 매개변수로 받으니까 action.payload에 객체로 (lat,lng 가진) 넘겨줘야 겠네
@@ -20,7 +27,17 @@ export default handleActions({
     type : GET_DUST,
     onSuccess : (state,action) =>{
       return {
+        ...state,
         infos : action.payload.data
+      }
+    }
+  }),
+  ...pender({
+    type : GET_BEFORE_DUST,
+    onSuccess : (state, action) => {
+      return {
+        ...state,
+        beforeInfos : action.payload.data
       }
     }
   })

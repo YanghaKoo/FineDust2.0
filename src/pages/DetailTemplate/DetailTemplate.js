@@ -36,13 +36,17 @@ class DetailTemplate extends Component {
   render() {
     const {
       infos,
+      beforeInfos,            
+      parks,      
+      nowGu,      
+      
       match,
       DustActions,
       ParkActions,
       LatlngActions,
-      parks,      
-      nowGu
     } = this.props;
+
+    
 
 
     let selected
@@ -60,9 +64,11 @@ class DetailTemplate extends Component {
 
     if (!infos[0] || !parks[0]) {
       DustActions.getDust();
+      DustActions.getBeforeDust()
       ParkActions.getPark();
       return <Loading pageHeight={90} logoWidth={50} />;
     }
+
 
     return (
       <div className="whole">
@@ -70,12 +76,11 @@ class DetailTemplate extends Component {
           <SearchBarContainer bottomColor={null} fontColor="black" />
         </div>
         <div className="detail-template" style={{ background: "white" }}>
-          <Info infos={selected}/>
+          <Info infos={selected} beforeInfos={beforeInfos}/>
           <div className="rigth-part">
             <DaumMapContainer
               id={match.params.id}
-              parks={parks}
-              
+              parks={parks}              
             />
 
             {/* <div className="park-info">
@@ -91,6 +96,7 @@ class DetailTemplate extends Component {
 export default connect(
   state => ({
     infos: state.dustInfo.infos,
+    beforeInfos : state.dustInfo.beforeInfos,
     parks: state.parks.parks,
     nowGu: state.latlng.nowGu
   }),

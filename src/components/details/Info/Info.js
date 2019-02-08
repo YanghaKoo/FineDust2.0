@@ -1,31 +1,53 @@
 import React, { Component } from "react";
 import "./Info.scss";
+import sorryImage from "images/sorry.png";
+import Chart from "../../../lib/Chart";
 
 class Info extends Component {
   render() {
-    const { infos } = this.props;
+    const { infos, beforeInfos } = this.props;
+    let data = []
 
     if (!infos)
       return (
         <div className="info">
           <div className="sorry">
             <div className="inner">
-              <img src="//cdn.onlinewebfonts.com/svg/img_329186.png" width={200} height={200} />
-              <div className="message">죄송합니다.<br/> 아직은 일부지역만 이용이 가능합니다.<br/>범위를 조금 벗어나셨습니다.</div>
+              <img src={sorryImage} width={200} height={200} alt="" />
+              <div className="message">
+                죄송합니다.
+                <br /> 아직은 일부지역만 이용이 가능합니다.
+                <br />
+                범위를 조금 벗어나셨습니다.
+              </div>
             </div>
           </div>
         </div>
       );
+    else {
+      const _1daybefore = beforeInfos["1daybefore"].find(item => {
+        return item.stationname === infos.stationname;
+      });
+      const _2daybefore = beforeInfos["2daybefore"].find(item => {
+        return item.stationname === infos.stationname;
+      });
+      
+      data = [
+        {name: '2days before', "미세": _2daybefore.pm10value, "초미세" : _2daybefore.pm25value, amt: 2400},
+        {name: '1day before', "미세": _1daybefore.pm10value, "초미세": _1daybefore.pm25value, amt: 2210},
+        {name: 'Now!', "미세": infos.pm10value, "초미세": infos.pm25value, amt: 2290},
+      ];        
+    }
 
     let result = null;
     let background = null;
+
+
     /*
     {"id":1,"stationname":"중구","infostime":"2018-08-09 16:00","so2value":"0.003","covalue":"0.2",
     "o3value":"0.046","no2value":"0.020","pm10value":"39","khaivalue":"66","khaigrade":"100","so2grade":"1",
     "cograde":"1","o3grade":"2","no2grade":"1","pm10grade":"2","lat":37.5640907,"lng":126.99794029999998}
     */
-
-    
 
     if (infos.pm10value <= 15) {
       result = "최고^_^";
@@ -72,10 +94,8 @@ class Info extends Component {
           </center>
         </div>
 
-        <div className="middle">
-          <p>어제보다~~</p>
-          <p>그제보다~~</p>
-          <p>ㅁㅁ보다~~</p>
+        <div className="middle"> 
+          <center><Chart data={data} />          </center>
         </div>
 
         {/* 상세정보 포함 */}
@@ -111,66 +131,3 @@ class Info extends Component {
 }
 
 export default Info;
-
-// 함수형 버전
-
-// import React from 'react';
-// import './Info.css'
-
-// const Info = ({infos}) => {
-//   infos = infos[0]
-//   let result = null
-//   /*
-//   {"id":1,"stationname":"중구","infostime":"2018-08-09 16:00","so2value":"0.003","covalue":"0.2",
-//   "o3value":"0.046","no2value":"0.020","pm10value":"39","khaivalue":"66","khaigrade":"100","so2grade":"1",
-//   "cograde":"1","o3grade":"2","no2grade":"1","pm10grade":"2","lat":37.5640907,"lng":126.99794029999998}
-//   */
-
-//   if(infos.pm10value <= 15){
-//     result = '최고!!'
-//   }else if(infos.pm10value <= 30){
-//     result = "좋음"
-//   }else if(infos.pm10value <= 40){
-//     result = "양호"
-//   }else if(infos.pm10value <= 50){
-//     result = "보통"
-//   }else if(infos.pm10value <= 75){
-//     result = "나쁨"
-//   }else if(infos.pm10value <= 100){
-//     result = "상당히 나쁨"
-//   }else if(infos.pm10value <= 150){
-//     result = "매우 나쁨"
-//   }else{
-//     result = "최악"
-//   }
-
-//   return (
-//     <div className="info">
-
-//       {infos.stationname}의 오늘 공기는
-//       {result}({infos.pm10value}㎍/㎥)
-
-//       <div>
-//       미세먼지(PM10) 농도 : {infos.pm10value}
-//       초미세먼지(PM2.5)농도 : {infos.pm25value}
-//       미세먼지 등급 : {infos.pm10grade}
-//       초미세먼지 등급 : {infos.pm25grade}
-//       이산화가스 농도 : {infos.so2value}
-//       일산화탄소 농도 : {infos.covalue}
-//       오존 농도 : {infos.o3value}
-//       이산화질소 농도 : {infos.no2value}
-//       이산화가스 지수 : {infos.so2grade}
-//       일산화탄소 지수 : {infos.cograde}
-//       오존 지수 : {infos.o3grade}
-//       이산화질소 지수 : {infos.no2grade}
-//       통합대기환경수치 : {infos.khaivalue}
-//       통합대기환경지수 : {infos.khaigrade}
-//       </div>
-
-//       측정시간 : {infos.infostime}
-
-//     </div>
-//   );
-// };
-
-// export default Info;

@@ -89,7 +89,7 @@ class SearchBarContainer extends Component {
 
   render() {
     const { InputActions, term, infos, bottomColor , fontColor} = this.props;
-    const {index} = this.state
+    const {index} = this.state  
 
     const filteredData = infos.filter(
       item => item.stationname.indexOf(term) !== -1
@@ -116,7 +116,7 @@ class SearchBarContainer extends Component {
 export default connect(
   state => ({
     term: state.input.term,
-    infos: state.dustInfo.infos
+    infos: state.dustInfo.infos,    
   }),
   dispatch => ({
     InputActions: bindActionCreators(inputActions, dispatch),

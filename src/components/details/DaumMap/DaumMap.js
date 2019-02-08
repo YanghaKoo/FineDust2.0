@@ -1,4 +1,5 @@
 /* global daum */
+
 import React, { Component } from "react";
 import "./DaumMap.scss";
 import { withRouter } from "react-router-dom";
@@ -15,6 +16,7 @@ class DaumMap extends Component {
     
   };
 
+  // 공원 위치 가져
   positions = []
 
   handleToggle = () => {
@@ -74,8 +76,7 @@ class DaumMap extends Component {
 
 
   // 현재 지도 중심 좌표 일시저장
-  makeMap = (lat, lng, level) => {
-    
+  makeMap = (lat, lng, level) => {    
     const { parks, nowGu } = this.props;
    
     const mapContainer = document.getElementById("map"),
@@ -120,7 +121,7 @@ class DaumMap extends Component {
       } // if문
     });
 
-    console.log(this.positions)
+    //    console.log(this.positions)
 
     const parkMarkerImage =
       "//t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
@@ -183,10 +184,8 @@ class DaumMap extends Component {
     daum.maps.event.addListener(map, "center_changed", () => {
       const center = map.getCenter();
       const lng = center.getLng();
-      const lat = center.getLat();
-      // console.log(lat, lng)
-      console.log(map.getLevel())
-
+      const lat = center.getLat();      
+      
       new daum.maps.services.Geocoder().coord2Address(
         lng,
         lat,

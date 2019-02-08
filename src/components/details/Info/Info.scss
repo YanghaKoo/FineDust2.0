@@ -20,6 +20,8 @@
     background: #e9ecef;
     text-align: center;
     padding-bottom : 10px;
+    
+    
   }
 
   .details ul {
@@ -43,7 +45,9 @@
   }
 
   .middle {
-    height: 200px;
+    background: $oc-red-2;
+    text-align: center;
+    height : 200px;
   }
 
   .details {

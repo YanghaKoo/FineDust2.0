@@ -17,7 +17,7 @@
       background: red;
       display: flex;
       flex-direction: column;
-      width: 80%;      
+      width: calc(100% - 400px);      
       background: #f1f3f5;
       @include media("<large"){
         width : 100%;

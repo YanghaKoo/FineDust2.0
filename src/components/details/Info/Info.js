@@ -33,8 +33,8 @@ class Info extends Component {
       });
       
       data = [
-        {name: '2days before', "미세": _2daybefore.pm10value, "초미세" : _2daybefore.pm25value, amt: 2400},
-        {name: '1day before', "미세": _1daybefore.pm10value, "초미세": _1daybefore.pm25value, amt: 2210},
+        {name: '-2days', "미세": _2daybefore.pm10value, "초미세" : _2daybefore.pm25value, amt: 2400},
+        {name: '-1day', "미세": _1daybefore.pm10value, "초미세": _1daybefore.pm25value, amt: 2210},
         {name: 'Now!', "미세": infos.pm10value, "초미세": infos.pm25value, amt: 2290},
       ];        
     }
@@ -78,10 +78,12 @@ class Info extends Component {
     return (
       <div className="info">
         <div className="main">
+          <div className="message">
           <h2>{infos.stationname}의 오늘 공기는</h2>
           <h1>
             {result} ({infos.pm10value} ㎍/㎥){" "}
           </h1>
+          </div>
           <center>
             <div
               style={{
@@ -95,7 +97,7 @@ class Info extends Component {
         </div>
 
         <div className="middle"> 
-          <center><Chart data={data} />          </center>
+          <Chart data={data} />
         </div>
 
         {/* 상세정보 포함 */}

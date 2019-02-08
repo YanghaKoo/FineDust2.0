@@ -3,14 +3,12 @@
 .info {
   min-width: 240px;
   text-align: center;
-
-  width: 20%;
+  width: 400px;
+  min-width: 325px;  
   height: calc(100vh - 140px);
-
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  
+  justify-content: space-between;  
   @include media("<large"){
     width : 100%;
     height: auto;
@@ -20,8 +18,15 @@
     background: #e9ecef;
     text-align: center;
     padding-bottom : 10px;
-    
-    
+    width :100%;
+    min-width: 325px;   
+         
+  
+    .message{      
+      display : flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+    }
   }
 
   .details ul {
@@ -45,9 +50,12 @@
   }
 
   .middle {
-    background: $oc-red-2;
+    //background: $oc-red-2;
+    
     text-align: center;
-    height : 200px;
+    height : auto;
+    margin-left : -20px;
+    margin-top : -10px;
   }
 
   .details {

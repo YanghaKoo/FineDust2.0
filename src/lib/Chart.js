@@ -36,7 +36,7 @@ class Chart extends Component {
       </LineChart> */}
         <div>
           <div style={{textAlign : "center"}}>
-            <p>최근 3일 미세먼지</p>
+            <p>최근 3일 미세먼지 수치</p>
           </div>
           <center>
             <AreaChart
@@ -61,7 +61,7 @@ class Chart extends Component {
         </div>
         <div>
           <div style={{textAlign : "center"}}>
-            <p>최근 3일 초미세 먼지</p>          
+            <p>최근 3일 초미세 먼지 수치</p>          
           </div>
             <AreaChart
               width={400}

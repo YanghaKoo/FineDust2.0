@@ -56,6 +56,7 @@ class Info extends Component {
 
     let result = null;
     let background = null;
+    let facialImage = null;
 
     /*
     {"id":1,"stationname":"중구","infostime":"2018-08-09 16:00","so2value":"0.003","covalue":"0.2",
@@ -66,40 +67,58 @@ class Info extends Component {
     if (infos.pm10value <= 15) {
       result = "최고^_^";
       background = "#d0ebff";
+      facialImage = "http://cdn.onlinewebfonts.com/svg/img_286165.png";
     } else if (infos.pm10value <= 30) {
       result = "좋음";
       background = "#a5d8ff";
+      facialImage = "http://cdn.onlinewebfonts.com/svg/img_286165.png";
     } else if (infos.pm10value <= 40) {
       result = "양호";
       background = "#4dabf7";
+      facialImage = "http://cdn.onlinewebfonts.com/svg/img_286165.png";
     } else if (infos.pm10value <= 50) {
       result = "보통";
       background = "#63e6be";
+      facialImage = null;
     } else if (infos.pm10value <= 75) {
       result = "나쁨";
       background = "#ffe066";
+      facialImage = null;
     } else if (infos.pm10value <= 100) {
       result = "상당히 나쁨";
       background = "#fcc419";
+      facialImage = null;
     } else if (infos.pm10value <= 150) {
       result = "매우 나쁨";
       background = "#f08c00";
+      facialImage = null;
     } else {
       result = "최악";
       background = "#212529";
+      facialImage = null;
     }
 
     return (
       <div className="info">
         <div className="main-wrapper">
-          <div className="main">
+          <div className="main" style={{ background: background }}>
             <div className="message">
-              
-                <div><span className="city">{infos.stationname}</span>의 오늘 공기는</div>
-                <div><span className="result">{result}</span>   ({infos.pm10value} ㎍/㎥){" "}</div>
-              
+              <div>
+                <span className="city">{infos.stationname}</span>의 오늘 공기는
+              </div>
+              <div>
+                <span className="result">{result}</span> ({infos.pm10value}{" "}
+                ㎍/㎥){" "}
+              </div>
             </div>
+            <br />
             <center>
+              <img
+                src={facialImage}
+                alt=""
+              />
+            </center>
+            {/* <center>
               <div
                 style={{
                   background,
@@ -108,7 +127,7 @@ class Info extends Component {
                   borderRadius: "50px"
                 }}
               />
-            </center>
+            </center> */}
           </div>
         </div>
 

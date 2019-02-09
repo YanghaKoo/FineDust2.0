@@ -26,6 +26,7 @@
   display : flex;
   flex-direction: column;
   justify-content: space-between ;
+  
 
 
   .button{
@@ -56,6 +57,13 @@
 
   .user-insert{
     font-size: 1.5rem;
+    width : 100%;
+    padding-left : 10px;
+    padding-right : 10px;
+    text-align: center;
+    ::placeholder{
+      text-align: center;
+    }
     
   }
   

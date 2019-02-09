@@ -276,6 +276,7 @@ class DaumMap extends Component {
                 value={this.state.userInsert}
                 onChange={this.handleChange}
                 className="user-insert"
+                placeholder="입력해주세요"
               />
               <input
                 type="button"

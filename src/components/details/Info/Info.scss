@@ -22,16 +22,18 @@
     // background: #dbe4ff;
     text-align: center;
     padding-bottom : 10px;
-    width :95%;
+    width : 95%;
     min-width: 325px;   
     // border-radius: 50px;
     height: auto;
     min-height: 200px;
     @include material-shadow(1);
     @include media("<large"){
+      padding-top : 15px;
       margin-bottom: 20px;
       display: flex;
       flex-wrap : wrap;
+      width : 600px;
       justify-content: space-around;
       min-height: 0;
     }

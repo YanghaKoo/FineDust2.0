@@ -55,13 +55,13 @@ class DetailTemplate extends Component {
       nowGu,      
       
       match,
-      DustActions,
-      ParkActions,
-      LatlngActions,
+      // DustActions,
+      // ParkActions,
+      // LatlngActions,
     } = this.props;
 
     
-    console.log(beforeInfos)
+    
 
     let selected
     if(infos){

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./Info.scss";
 import sorryImage from "images/sorry.png";
 import Chart from "../../../lib/Chart";
+import { Motion, spring, TransitionMotion } from "react-motion";
 
 class Info extends Component {
   render() {
@@ -57,114 +58,125 @@ class Info extends Component {
     let result = null;
     let background = null;
     let facialImage = null;
+    let fontColor = null;
+
+    let makeFadeIn = 0;
 
     /*
     {"id":1,"stationname":"중구","infostime":"2018-08-09 16:00","so2value":"0.003","covalue":"0.2",
     "o3value":"0.046","no2value":"0.020","pm10value":"39","khaivalue":"66","khaigrade":"100","so2grade":"1",
     "cograde":"1","o3grade":"2","no2grade":"1","pm10grade":"2","lat":37.5640907,"lng":126.99794029999998}
     */
-
-    if (infos.pm10value <= 15) {
+    if (infos.pm10value === null) {
+      result = "관측 결과 없음";
+      background = "";
+      facialImage = "https://image.flaticon.com/icons/svg/1178/1178479.svg";
+    } else if (infos.pm10value <= 15) {
       result = "최고^_^";
       background = "#d0ebff";
-      facialImage = "http://cdn.onlinewebfonts.com/svg/img_286165.png";
+      facialImage = "https://image.flaticon.com/icons/svg/576/576803.svg"; // done
     } else if (infos.pm10value <= 30) {
       result = "좋음";
       background = "#a5d8ff";
-      facialImage = "http://cdn.onlinewebfonts.com/svg/img_286165.png";
+      facialImage = "https://image.flaticon.com/icons/svg/187/187154.svg"; // done
     } else if (infos.pm10value <= 40) {
       result = "양호";
       background = "#4dabf7";
-      facialImage = "http://cdn.onlinewebfonts.com/svg/img_286165.png";
+      facialImage = "https://image.flaticon.com/icons/svg/725/725107.svg"; // done
     } else if (infos.pm10value <= 50) {
       result = "보통";
       background = "#63e6be";
-      facialImage = null;
+      facialImage = "https://image.flaticon.com/icons/svg/576/576866.svg"; // done 턱괴기
     } else if (infos.pm10value <= 75) {
       result = "나쁨";
       background = "#ffe066";
-      facialImage = null;
+      facialImage = "https://image.flaticon.com/icons/svg/187/187146.svg"; // done
     } else if (infos.pm10value <= 100) {
       result = "상당히 나쁨";
       background = "#fcc419";
-      facialImage = null;
+      facialImage = "https://image.flaticon.com/icons/svg/187/187165.svg"; // done 초록
     } else if (infos.pm10value <= 150) {
       result = "매우 나쁨";
       background = "#f08c00";
-      facialImage = null;
+      facialImage = "https://image.flaticon.com/icons/svg/187/187144.svg"; // done  눈물
+      fontColor = { color: "white" };
     } else {
       result = "최악";
       background = "#212529";
-      facialImage = null;
+      facialImage = "https://image.flaticon.com/icons/svg/187/187164.svg";
+      fontColor = { color: "white" };
     }
 
     return (
-      <div className="info">
-        <div className="main-wrapper">
-          <div className="main" style={{ background: background }}>
-            <div className="message">
-              <div>
-                <span className="city">{infos.stationname}</span>의 오늘 공기는
-              </div>
-              <div>
-                <span className="result">{result}</span> ({infos.pm10value}{" "}
-                ㎍/㎥){" "}
-              </div>
-            </div>
-            <br />
-            <center>
-              <img
-                src={facialImage}
-                alt=""
-              />
-            </center>
-            {/* <center>
+      <Motion
+        defaultStyle={{ x: -400, opacity: 0 }}
+        style={{ x: spring(0), opacity: spring(1) }}
+      >
+         {style => (
+        <div className="info">
+          <div className="main-wrapper">         
               <div
+                className="main"
                 style={{
-                  background,
-                  width: "100px",
-                  height: "100px",
-                  borderRadius: "50px"
+                  background: background,
+                  opacity: style.opacity,
+                  transform: `translateX(${style.x}px)`
                 }}
-              />
-            </center> */}
+              >
+                <div className="message" style={fontColor}>
+                  <div>
+                    <span className="city">{infos.stationname}</span>의 오늘
+                    공기는
+                  </div>
+                  <div>
+                    <span className="result">{result}</span> ({infos.pm10value}{" "}
+                    ㎍/㎥){" "}
+                  </div>
+                </div>
+                <br />
+                <center>
+                  <img src={facialImage} alt="" />
+                </center>
+              </div>
+            
           </div>
-        </div>
 
-        <div className="middle-wrapper">
-          <div className="middle">
-            <Chart data={data} />
-          </div>
-        </div>
-
-        {/* 상세정보 포함 */}
-        <div className="details">
-          <div className="dropbtn">
-            <div style={{ textAlign: "center" }}>
-              <b>상세정보 보기</b>
-            </div>
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <ul>
-                <li>미세먼지(PM10) 농도 : {infos.pm10value}</li>
-                <li>초미세먼지(PM2.5)농도 : {infos.pm25value} </li>
-                <li>미세먼지 등급 : {infos.pm10grade} </li>
-                <li>초미세먼지 등급 : {infos.pm25grade} </li>
-                <li>이산화가스 농도 : {infos.so2value} </li>
-                <li>일산화탄소 농도 : {infos.covalue} </li>
-                <li>오존 농도 : {infos.o3value} </li>
-                <li>이산화질소 농도 : {infos.no2value} </li>
-                <li>이산화가스 지수 : {infos.so2grade} </li>
-                <li>일산화탄소 지수 : {infos.cograde} </li>
-                <li>오존 지수 : {infos.o3grade} </li>
-                <li>이산화질소 지수 : {infos.no2grade} </li>
-                <li>통합대기환경수치 : {infos.khaivalue} </li>
-                <li>통합대기환경지수 : {infos.khaigrade} </li>
-                <li>측정시간 : {infos.infostime}</li>
-              </ul>
+          <div className="middle-wrapper">
+            <div className="middle">
+              <Chart data={data} />
             </div>
           </div>
+
+          {/* 상세정보 포함 */}
+          <div className="details">
+            <div className="dropbtn">
+              <div style={{ textAlign: "center" }}>
+                <b>상세정보 보기</b>
+              </div>
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <ul>
+                  <li>미세먼지(PM10) 농도 : {infos.pm10value}</li>
+                  <li>초미세먼지(PM2.5)농도 : {infos.pm25value} </li>
+                  <li>미세먼지 등급 : {infos.pm10grade} </li>
+                  <li>초미세먼지 등급 : {infos.pm25grade} </li>
+                  <li>이산화가스 농도 : {infos.so2value} </li>
+                  <li>일산화탄소 농도 : {infos.covalue} </li>
+                  <li>오존 농도 : {infos.o3value} </li>
+                  <li>이산화질소 농도 : {infos.no2value} </li>
+                  <li>이산화가스 지수 : {infos.so2grade} </li>
+                  <li>일산화탄소 지수 : {infos.cograde} </li>
+                  <li>오존 지수 : {infos.o3grade} </li>
+                  <li>이산화질소 지수 : {infos.no2grade} </li>
+                  <li>통합대기환경수치 : {infos.khaivalue} </li>
+                  <li>통합대기환경지수 : {infos.khaigrade} </li>
+                  <li>측정시간 : {infos.infostime}</li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+         )}
+      </Motion>
     );
   }
 }

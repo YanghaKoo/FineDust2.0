@@ -3,7 +3,7 @@ import { pender } from 'redux-pender'
 import axios from 'axios'
 
 function getDustApi(){
-  return axios.get('https://api.myjson.com/bins/19pe4o')
+  return axios.get('https://api.myjson.com/bins/uzlba')
 }
 
 function getDaysBeforeDustApi(){

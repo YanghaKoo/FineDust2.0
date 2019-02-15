@@ -18,7 +18,7 @@
 .user-submit {
   width : 200px;
   height: 200px;
-  background: $oc-gray-5;
+  background: $oc-gray-7;
   opacity: 0.8;
   border-radius: 30px;
   position: absolute;
@@ -27,7 +27,19 @@
   flex-direction: column;
   justify-content: space-between ;
   
+  .pupup{
+    ::placeholder {
+      font-size: 1rem;
+    }
+  }
 
+  .add-park{
+    font-size: 1.05rem;
+    color : white;
+    font-weight: 700;
+    height: 100%;
+    margin-bottom: 7%;    
+  }
 
   .button{
     cursor : pointer;
@@ -61,8 +73,9 @@
     padding-left : 10px;
     padding-right : 10px;
     text-align: center;
-    ::placeholder{
+    &::placeholder{
       text-align: center;
+      color : $oc-gray-7;
     }
     
   }

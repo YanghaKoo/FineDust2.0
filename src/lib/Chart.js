@@ -41,7 +41,7 @@ class Chart extends Component {
           <center>
             <AreaChart
               width={400}
-              height={150}
+              height={100}
               data={this.props.data}
               syncId="anyId"
               margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
@@ -65,7 +65,7 @@ class Chart extends Component {
           </div>
             <AreaChart
               width={400}
-              height={150}
+              height={100}
               data={this.props.data}
               syncId="anyId"
               margin={{ top: 10, right: 30, left: 0, bottom: 0 }}

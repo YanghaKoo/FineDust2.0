@@ -120,7 +120,8 @@ class Info extends Component {
                 style={{
                   background: background,
                   opacity: style.opacity,
-                  transform: `translateX(${style.x}px)`
+                  // transform: `translateX(${style.x}px)`,                
+                  transition  : "0.3s"
                 }}
               >
                 <div className="message" style={fontColor}>
@@ -142,7 +143,7 @@ class Info extends Component {
           </div>
 
           <div className="middle-wrapper">
-            <div className="middle">
+            <div className="middle" style={{transform:`translateX(${style.x}px)`}}>
               <Chart data={data} />
             </div>
           </div>

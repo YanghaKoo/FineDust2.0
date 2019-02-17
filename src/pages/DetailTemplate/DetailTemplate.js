@@ -25,7 +25,8 @@ class DetailTemplate extends Component {
       await Promise.all([
         DustActions.getDust(),
         DustActions.getBeforeDust(),
-        ParkActions.getPark()
+        ParkActions.getPark(),
+        ParkActions.getUserInputPark()
       ]) 
     }
   }
@@ -41,7 +42,7 @@ class DetailTemplate extends Component {
       });
 
       if (selected) {
-        console.log("detail template")
+        // console.log("detail template")
         LatlngActions.changeNowGu(selected.stationname);
       }
     }
@@ -81,8 +82,8 @@ class DetailTemplate extends Component {
       // DustActions.getBeforeDust()
       // ParkActions.getPark();
       return <Loading pageHeight={90} logoWidth={50} />;
-    }
-
+    }    
+    
 
     return (
       <div className="whole">
@@ -94,7 +95,9 @@ class DetailTemplate extends Component {
           <div className="rigth-part">
             <DaumMapContainer
               id={match.params.id}
-              parks={parks}              
+              parks={parks}
+              userInputParks={this.props.userInputParks}
+              // selected={selected}              
             />
 
             {/* <div className="park-info">
@@ -112,7 +115,8 @@ export default connect(
     infos: state.dustInfo.infos,
     beforeInfos : state.dustInfo.beforeInfos,
     parks: state.parks.parks,
-    nowGu: state.latlng.nowGu
+    nowGu: state.latlng.nowGu,
+    userInputParks : state.parks.userInputParks,
   }),
   dispatch => ({
     DustActions: bindActionCreators(dustActions, dispatch),

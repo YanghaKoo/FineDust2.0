@@ -26,9 +26,12 @@ class DaumMapContainer extends Component {
         infos={infos}
         change={match.params.id}
         id={this.props.id}
-        parks={this.props.parks}                
+        parks={this.props.parks}
         nowGu={nowGu}
         LatlngActions={LatlngActions}
+        userInputParks={this.props.userInputParks}
+
+        // selected={this.props.selected}        
       />
     );
   }

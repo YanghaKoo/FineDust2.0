@@ -29,11 +29,11 @@ export default handleActions(
     },
     // 이거 별 필요없는듯
     [scale]: (state, action) => {
-      console.log(action.payload + "scale");
+      //console.log(action.payload + "scale");
       return { ...state, mapLevel: action.payload };
     },
     [changeNowGu] : (state, action) => {
-      console.log("리덕스부분", action.payload)
+      //console.log("리덕스부분", action.payload)
       return { ...state, nowGu : action.payload }
 
     }

@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import "./Info.scss";
-import sorryImage from "images/sorry.png";
 import Chart from "../../../lib/Chart";
-import { Motion, spring, TransitionMotion } from "react-motion";
+import { Motion, spring } from "react-motion";
 
 class Info extends Component {
   render() {
@@ -14,7 +13,7 @@ class Info extends Component {
         <div className="info">
           <div className="sorry">
             <div className="inner">
-              <img src={sorryImage} width={200} height={200} alt="" />
+              <img src={"https://image.flaticon.com/icons/svg/187/187150.svg"} width={200} height={200} alt="" />
               <div className="message">
                 죄송합니다.
                 <br /> 아직은 일부지역만 이용이 가능합니다.
@@ -59,8 +58,7 @@ class Info extends Component {
     let background = null;
     let facialImage = null;
     let fontColor = null;
-
-    let makeFadeIn = 0;
+    
 
     /*
     {"id":1,"stationname":"중구","infostime":"2018-08-09 16:00","so2value":"0.003","covalue":"0.2",
@@ -126,7 +124,7 @@ class Info extends Component {
               >
                 <div className="message" style={fontColor}>
                   <div>
-                    <span className="city">{infos.stationname}</span>의 오늘
+                    <span className="city">{infos.stationname}</span>의 지금
                     공기는
                   </div>
                   <div>

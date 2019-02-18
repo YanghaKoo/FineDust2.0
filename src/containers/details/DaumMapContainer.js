@@ -30,6 +30,7 @@ class DaumMapContainer extends Component {
         nowGu={nowGu}
         LatlngActions={LatlngActions}
         userInputParks={this.props.userInputParks}
+        ParkActions={this.props.ParkActions}
 
         // selected={this.props.selected}        
       />

@@ -119,7 +119,7 @@ class Info extends Component {
                   background: background,
                   opacity: style.opacity,
                   // transform: `translateX(${style.x}px)`,                
-                  transition  : "0.3s"
+                  transition  : "0.5s"
                 }}
               >
                 <div className="message" style={fontColor}>

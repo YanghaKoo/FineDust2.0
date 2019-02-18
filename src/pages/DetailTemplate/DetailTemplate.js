@@ -18,8 +18,7 @@ class DetailTemplate extends Component {
   };
 
 
-  async componentDidMount() {
-
+  async componentDidMount() {    
     const {infos, parks, DustActions, ParkActions} = this.props
     if (!infos[0] || !parks[0] ) {
       await Promise.all([
@@ -29,6 +28,7 @@ class DetailTemplate extends Component {
         ParkActions.getUserInputPark()
       ]) 
     }
+
   }
   
   componentWillReceiveProps(nextProps) {
@@ -97,6 +97,7 @@ class DetailTemplate extends Component {
               id={match.params.id}
               parks={parks}
               userInputParks={this.props.userInputParks}
+              ParkActions={this.props.ParkActions}
               // selected={selected}              
             />
 

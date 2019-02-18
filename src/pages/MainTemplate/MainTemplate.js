@@ -2,7 +2,17 @@ import React, { Component } from "react";
 import SearchBarContainer from "containers/main/SearchBarContainer";
 import "./MainTemplate.scss";
 
+// import axios from 'axios'
+
 class MainTemplate extends Component {
+
+  // componentDidMount(){
+  //   axios.get('http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty?sidoName=%EC%84%9C%EC%9A%B8&pageNo=1&numOfRows=10&ServiceKey=An1Q8qFq4qIZaRHmlEPiHccL4bcaAe%2FqbOkP2RFZLO%2B6uYxJujKNedGWvNNh5vyaGyKhPQFHgmzTVtM%2B4CWILQ%3D%3D&ver=1.0&ver=1.0&_returnType=json')
+  //     .then(a=>console.log(a))
+  //     .catch(e=> console.log(e))
+  // }
+  
+
   render() {
     return (
       <div className="main-template">

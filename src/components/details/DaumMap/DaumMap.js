@@ -4,27 +4,36 @@ import React, { Component } from "react";
 import "./DaumMap.scss";
 import { withRouter } from "react-router-dom";
 import Loading from "components/common/Loading";
+import axios from "axios";
+import DjangoCSRFToken from "django-react-csrftoken";
+
+// axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+// axios.defaults.xsrfCookieName = "csrftoken";
 
 class DaumMap extends Component {
   state = {
     toggle: false,
+
     userInsert: "",
     markerLat: null,
-    markerLng: null,    
+    markerLng: null,
 
-    parkToggle : true,
-    parkMarkers : null,
+    parkToggle: true,
+    parkMarkers: null,
 
     userParkToggle: true,
     clusterer: null,
     UIparkMarkers: null,
 
-    token : false,
+    token: false,
+    loading: false,
     testdb: []
   };
 
   // 공원 위치 가져
   positions = [];
+  marker = null;
+  map = null;
 
   componentDidMount() {
     const { infos, match } = this.props;
@@ -35,13 +44,47 @@ class DaumMap extends Component {
 
   componentWillReceiveProps(nextProps) {
     // nowGu 바뀌는걸론 리렌더링 하지않게
+
     if (this.props.nowGu !== nextProps.nowGu) return;
+    if (this.props.userInputParks.length !== nextProps.userInputParks.length) {
+      // 유저가 찍는 마커 지우고 새로 clickable한 마커 생성
+      console.log(this.props.userInputParks, nextProps.userInputParks)
+      this.marker.setMap(null);
+      this.setState({
+        markerLat: null,
+        markerLng: null
+      });
+      
+      const marker = new daum.maps.Marker({});
+      marker.setMap(this.map);
+      daum.maps.event.addListener(this.map, "click", mouseEvent => {
+        const latlng = mouseEvent.latLng;
+        marker.setPosition(latlng);
 
-    const { infos, match } = nextProps;
-    const lat = infos[Number(match.params.id) - 1].lat;
-    const lng = infos[Number(match.params.id) - 1].lng;
+        this.marker = marker;
+        this.setState({
+          markerLat: latlng.getLat(),
+          markerLng: latlng.getLng()
+        });
+      });
 
-    this.makeMap(lat, lng, 5);
+      //  TODO :
+      // 새로 입력된 유저인풋 파크로 지도의 중심이 옮겨져 가게
+      
+      const { lat, lng } = nextProps.userInputParks[
+        nextProps.userInputParks.length - 1
+      ];
+      console.log(nextProps.userInputParks)
+      console.log(lat, lng);
+      this.makeMap(Number(lat), Number(lng), 5);
+    } else {
+      const { infos, match } = nextProps;
+      const lat = infos[Number(match.params.id) - 1].lat;
+      const lng = infos[Number(match.params.id) - 1].lng;
+      
+
+      this.makeMap(lat, lng, 5);
+    }
   }
 
   handleToggle = () => {
@@ -56,8 +99,12 @@ class DaumMap extends Component {
     });
   };
 
-  handleSubmit = () => {
+  handleSubmit = async e => {
+    e.preventDefault();
     const { markerLat, markerLng, userInsert } = this.state;
+
+    // for 장고
+    const csrf = e.target.csrfmiddlewaretoken.value;
 
     if (!(markerLat && markerLng && userInsert)) {
       alert("Marker가 찍히지 않았거나 내용이 입력되지 않았습니다.");
@@ -67,12 +114,34 @@ class DaumMap extends Component {
       return;
     }
 
+    try {
+      const submit = await axios.post(
+        "/app01/start_app/data_user_park",
+        {
+          lat: markerLat,
+          lng: markerLng,
+          gu: this.props.nowGu,
+          userInput: this.state.userInsert
+        },
+        {
+          headers: {
+            "X-CSRFToken": csrf
+          }
+        }
+      );
+      console.log(submit);
+    } catch (e) {
+      console.log(e);
+    }
+
+    // 아래 testdb
     const datas = {
       lat: markerLat,
       lng: markerLng,
-      comment: this.state.userInsert,
+      userInput: this.state.userInsert,
       gu: this.props.nowGu
     };
+
     this.setState(
       {
         testdb: this.state.testdb.concat(datas),
@@ -81,7 +150,10 @@ class DaumMap extends Component {
       },
       () => {
         console.log(this.state.testdb);
-        alert("알려주셔서 감사합니다!");
+
+        // TODO : 제보한게 등록 제대로 되는지 확인
+        this.props.ParkActions.getUserInputPark();
+        //alert("알려주셔서 감사합니다!");
       }
     );
   };
@@ -90,7 +162,9 @@ class DaumMap extends Component {
     return {
       title: park.p_nm,
       latlng: new daum.maps.LatLng(Number(park.lat), Number(park.lng)),
-      content: `<div style="border-radius : 20px;"><img src=${park.p_img} alt="" width="230px"/>
+      content: `<div style="border-radius : 20px;"><img src=${
+        park.p_img
+      } alt="" width="230px"/>
     <div style="width : 230px; text-align : center; font-weight : 800;">${
       park.p_nm
     }</div>
@@ -106,31 +180,32 @@ class DaumMap extends Component {
 
   handleParkMarker = () => {
     const { parkToggle, parkMarkers, clusterer } = this.state;
-    const { nowGu, parks } = this.props
+    const { nowGu, parks } = this.props;
     parkToggle
       ? clusterer.removeMarkers(parkMarkers)
       : clusterer.addMarkers(parkMarkers);
-          
-    
-    this.setState({
-      parkToggle: !this.state.parkToggle
-    }, () =>{
-      if(this.state.parkToggle){        
-        parks.forEach(park => {
-          // 이 if문이 해당 구의 공원 정보만 가져오는 것
-          if (park.p_address.match(nowGu)) {
-            // 중복 방지
-            if (this.positions.find(item => item.title === park.p_nm)) return;
-            this.positions.push(this.makeParkInfoWindow(park));
-          }
+
+    this.setState(
+      {
+        parkToggle: !this.state.parkToggle
+      },
+      () => {
+        if (this.state.parkToggle) {
+          parks.forEach(park => {
+            // 이 if문이 해당 구의 공원 정보만 가져오는 것
+            if (park.p_address.match(nowGu)) {
+              // 중복 방지
+              if (this.positions.find(item => item.title === park.p_nm)) return;
+              this.positions.push(this.makeParkInfoWindow(park));
+            }
+          });
+        }
+        this.setState({
+          token: !this.state.token
         });
       }
-      this.setState({
-        token : !this.state.token
-      })
-    });
-  }
-
+    );
+  };
 
   handleUserParkMarker = () => {
     const { userParkToggle, UIparkMarkers, clusterer } = this.state;
@@ -168,6 +243,8 @@ class DaumMap extends Component {
     // 유저가 찍을 마커 객체 생성
     const marker = new daum.maps.Marker({});
     marker.setMap(map);
+    this.marker = marker;
+    this.map = map;
 
     // 공원 마커정보 표시
     // const positions = [];
@@ -200,47 +277,45 @@ class DaumMap extends Component {
     const imageSize = new daum.maps.Size(50, 65);
     const markerImage = new daum.maps.MarkerImage(parkMarkerImage, imageSize);
 
-    
     // 공원 표시 마커들
-    if(this.state.parkToggle){
-    
-    const parkMarkers = this.positions.map(position => {
-      const infowindow = new daum.maps.InfoWindow({
-        content: position.content // 인포윈도우에 표시할 내용
+    if (this.state.parkToggle) {
+      const parkMarkers = this.positions.map(position => {
+        const infowindow = new daum.maps.InfoWindow({
+          content: position.content // 인포윈도우에 표시할 내용
+        });
+
+        const newMarker = new daum.maps.Marker({
+          image: markerImage,
+          map: map,
+          position: position.latlng,
+          title: position.title
+        });
+
+        daum.maps.event.addListener(
+          newMarker,
+          "mouseover",
+          makeOverListener(map, newMarker, infowindow)
+        );
+        daum.maps.event.addListener(
+          newMarker,
+          "mouseout",
+          makeOutListener(infowindow)
+        );
+        return newMarker;
       });
+      clusterer.addMarkers(parkMarkers);
 
-      const newMarker = new daum.maps.Marker({
-        image: markerImage,
-        map: map,
-        position: position.latlng,
-        title: position.title
+      this.setState({
+        clusterer,
+        parkMarkers
       });
-
-      daum.maps.event.addListener(
-        newMarker,
-        "mouseover",
-        makeOverListener(map, newMarker, infowindow)
-      );
-      daum.maps.event.addListener(
-        newMarker,
-        "mouseout",
-        makeOutListener(infowindow)
-      );
-      return newMarker;
-    });
-    clusterer.addMarkers(parkMarkers);
-
-    this.setState({
-      clusterer,        
-      parkMarkers
-    });
-  }
+    }
 
     // userInputParks 좌표 찍기
 
     if (this.state.userParkToggle) {
       const userMarkerImageUrl =
-        "https://image.flaticon.com/icons/svg/201/201916.svg"
+        "https://image.flaticon.com/icons/svg/201/201916.svg";
       const userMarkerImage = new daum.maps.MarkerImage(
         userMarkerImageUrl,
         imageSize
@@ -281,7 +356,7 @@ class DaumMap extends Component {
       clusterer.addMarkers(userInputParksMarker);
 
       this.setState({
-        clusterer,        
+        clusterer,
         UIparkMarkers: userInputParksMarker
       });
     }
@@ -310,7 +385,7 @@ class DaumMap extends Component {
           (result, status) => {
             if (result[0] && status === daum.maps.services.Status.OK) {
               if (!result[0].address) {
-                console.log("!#!@#!@#!@#!@#!@#!@#!@#");
+                console.log("exception handle success");
                 return;
               }
 
@@ -323,7 +398,8 @@ class DaumMap extends Component {
                   // 이 if문이 해당 구의 공원 정보만 가져오는 것
                   if (park.p_address.match(nowGu)) {
                     // 중복 방지
-                    if (this.positions.find(item => item.title === park.p_nm)) return;
+                    if (this.positions.find(item => item.title === park.p_nm))
+                      return;
 
                     this.positions.push(this.makeParkInfoWindow(park));
                     this.makeMap(lat, lng, map.getLevel());
@@ -341,19 +417,14 @@ class DaumMap extends Component {
 
   render() {
     const { toggle, userParkToggle, parkToggle } = this.state;
-    const btnValue = toggle 
-      ? "추가모드 종료" 
-      : "공원 제보하기";
-    
-    const parkBtnValue = parkToggle
-      ? "일반 공원 숨기기"
-      : "일반 공원 표시하기";
+    const btnValue = toggle ? "추가모드 종료" : "공원 제보하기";
+
+    const parkBtnValue = parkToggle ? "일반 공원 숨기기" : "일반 공원 표시하기";
 
     const userParkBtnValue = userParkToggle
       ? "제보된 공원 숨기기"
       : "제보된 공원 표시하기";
-    
-    
+
     const userSubmitStyle = toggle ? null : { height: "100px" };
 
     return (
@@ -363,8 +434,12 @@ class DaumMap extends Component {
         </div>
 
         <div className="user-park-button">
-          <div className="input" onClick={this.handleParkMarker}>{parkBtnValue}</div>
-          <div className="input" onClick={this.handleUserParkMarker}>{userParkBtnValue}</div>
+          <div className="input" onClick={this.handleParkMarker}>
+            {parkBtnValue}
+          </div>
+          <div className="input" onClick={this.handleUserParkMarker}>
+            {userParkBtnValue}
+          </div>
         </div>
 
         <div className="user-submit" style={userSubmitStyle}>
@@ -383,20 +458,18 @@ class DaumMap extends Component {
 
           {toggle && (
             <div className="popup">
-              <input
-                type="text"
-                value={this.state.userInsert}
-                onChange={this.handleChange}
-                className="user-insert"
-                placeholder="공원 이름 입력"
-                onKeyPress={this.handleKeyPress}
-              />
-              <input
-                type="button"
-                onClick={this.handleSubmit}
-                value="제출"
-                className="submit button"
-              />
+              <form onSubmit={this.handleSubmit}>
+                <DjangoCSRFToken />
+                <input
+                  type="text"
+                  value={this.state.userInsert}
+                  onChange={this.handleChange}
+                  className="user-insert"
+                  placeholder="공원 이름 입력"
+                  onKeyPress={this.handleKeyPress}
+                />
+                <input type="submit" value="제출" className="submit button" />
+              </form>
             </div>
           )}
         </div>

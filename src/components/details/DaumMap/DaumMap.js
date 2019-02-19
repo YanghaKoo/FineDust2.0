@@ -181,18 +181,23 @@ class DaumMap extends Component {
   handleParkMarker = () => {
     const { parkToggle, parkMarkers, clusterer } = this.state;
     const { nowGu, parks } = this.props;
-    parkToggle
-      ? clusterer.removeMarkers(parkMarkers)
-      : clusterer.addMarkers(parkMarkers);
+
+    console.log(nowGu)
+    if(parkToggle){
+      clusterer.removeMarkers(parkMarkers)
+    }else{
+      clusterer.addMarkers(parkMarkers);
+    }
+    
 
     this.setState(
       {
         parkToggle: !this.state.parkToggle
       },
-      () => {
-        if (this.state.parkToggle) {
+      () => {        
+        if (parkToggle) {          
           parks.forEach(park => {
-            // 이 if문이 해당 구의 공원 정보만 가져오는 것
+            // 이 if문이 해당 구의 공원 정보만 가져오는 것            
             if (park.p_address.match(nowGu)) {
               // 중복 방지
               if (this.positions.find(item => item.title === park.p_nm)) return;
@@ -200,6 +205,7 @@ class DaumMap extends Component {
             }
           });
         }
+
         this.setState({
           token: !this.state.token
         });
@@ -418,13 +424,13 @@ class DaumMap extends Component {
   render() {
     const { toggle, userParkToggle, parkToggle } = this.state;
     const btnValue = toggle ? "추가모드 종료" : "공원 제보하기";
+    
+    console.log(this.positions)
 
     const parkBtnValue = parkToggle ? "일반 공원 숨기기" : "일반 공원 표시하기";
-
     const userParkBtnValue = userParkToggle
       ? "제보된 공원 숨기기"
       : "제보된 공원 표시하기";
-
     const userSubmitStyle = toggle ? null : { height: "100px" };
 
     return (

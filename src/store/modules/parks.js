@@ -7,8 +7,8 @@ function getParkAPI(){
 }
 
 function getUserInputParkAPI(){
-  return axios.get('https://api.myjson.com/bins/1epxx6')
- // return axios.get('http://35.243.87.74/app01/start_app/data_user_park')
+ //return axios.get('https://api.myjson.com/bins/1epxx6')
+ return axios.get('http://35.243.87.74/app01/start_app/data_user_park')
 }
 
 
